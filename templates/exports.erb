@@ -1,0 +1,9 @@
+# Please do not manually edit this file
+# /etc/exports is managed by Puppet
+<%- @exports_config.sort_by {|k, v| k}.each do |key, val| -%>
+<%- if val.is_a?(Array) -%>
+<%= key %><% val.each do |v| %> <%= v %><% end %>
+<%- else -%>
+<%= key %> <%= val %>
+<% end -%>
+<% end -%>

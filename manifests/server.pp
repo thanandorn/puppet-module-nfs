@@ -7,16 +7,18 @@ class nfs::server (
   $exports_owner  = 'root',
   $exports_group  = 'root',
   $exports_mode   = '0644',
+  $exports_config = {},
 ) inherits nfs {
 
   # GH: TODO - use file fragment pattern
   file { 'nfs_exports':
-    ensure => file,
-    path   => $exports_path,
-    owner  => $exports_owner,
-    group  => $exports_group,
-    mode   => $exports_mode,
-    notify => Exec['update_nfs_exports'],
+    ensure  => file,
+    path    => $exports_path,
+    owner   => $exports_owner,
+    group   => $exports_group,
+    mode    => $exports_mode,
+    content => template('nfs/exports.erb'),
+    notify  => Exec['update_nfs_exports'],
   }
 
   exec { 'update_nfs_exports':
